@@ -14,9 +14,9 @@ const { dataRef, loadData } = useLoadData()
 const emit = defineEmits(['pick'])
 
 onMounted(() => {
-loadData() 
+  loadData()
 
-window.addEventListener('mousemove', (event) => {
+  window.addEventListener('mousemove', (event) => {
 
     //Convert mouse position to normalized device coordinates (-1 to +1)
     const mouse = {};
@@ -155,7 +155,25 @@ async function runLayout() {
     .font(fontFamily)
     .fontSize(d => d.size)
     .on('end', placed => {
+      // 1. find bounding box
+      const minX = Math.min(...placed.map(w => w.x))
+      const maxX = Math.max(...placed.map(w => w.x))
+      const minY = Math.min(...placed.map(w => w.y))
+      const maxY = Math.max(...placed.map(w => w.y))
+
+      // 2. regn offset til center
+      const offsetX = (minX + maxX) / 2
+      const offsetY = (minY + maxY) / 2
+
+      // 3. flyt ordene så center = (0,0)
+      placed.forEach(w => {
+        w.x -= offsetX
+        w.y -= offsetY
+      })
+
+      // 4. sæt dem i din reactive ref
       layoutWords.value = placed
+
       layoutRunning = false
       if (rerunRequested) runLayout()
     })
@@ -215,12 +233,9 @@ watch(layoutWords, async (newWords) => {
     <!-- vi renderer som SVG, centreret i containeren -->
     <svg :width="width" :height="height" class="cloud-svg">
       <g :transform="`translate(${width / 2}, ${height / 2})`">
-        <text v-for="w in layoutWords" :data-key="w.text"
-          :key="w.datum['subject-id']"
-          :data-id="w.datum['subject-id']"
-          class="cloud-words"
-          :font-size="w.size"
-          :fill="colorFor(w.datum.points)" text-anchor="middle" :style="{ 'font-family': fontFamily, 'font-weight': 600 }" style="cursor:pointer; user-select:none;"
+        <text v-for="w in layoutWords" :data-key="w.text" :key="w.datum['subject-id']" :data-id="w.datum['subject-id']"
+          class="cloud-words" :font-size="w.size" :fill="colorFor(w.datum.points)" text-anchor="middle"
+          :style="{ 'font-family': fontFamily, 'font-weight': 600 }" style="cursor:pointer; user-select:none;"
           @click="openSubjectFeed(w.datum['subject-id']); animateWordUp(w.datum['subject-id']);">
           {{ w.text }}
         </text>
