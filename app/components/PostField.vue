@@ -148,7 +148,6 @@ async function promptPost(post){
     position: fixed;
     bottom: 5rem;
     left: 6.25rem;
-    z-index: -2;
 }
 
 .post-field div{

@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "d3-cloud": "^1.2.7",
     "gsap": "^3.13.0",
     "mysql2": "^3.14.5",
     "nuxt": "^4.1.1",

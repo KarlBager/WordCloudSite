@@ -2,13 +2,14 @@
 
 const props = defineProps({
     icon: String,
-    type: String
+    type: String,
+    color: String
 });
 
 </script>
 
 <template>
-    <div class="button" :class="{ 'btn-ghost': props.type == 'ghost' }">
+    <div class="button" :class="{ 'btn-ghost': props.type == 'ghost' }" :style="{ 'backgroundColor': props.color }">
         <Icon v-if="props.icon" :icon="props.icon"></Icon>
         <slot></slot>
     </div>

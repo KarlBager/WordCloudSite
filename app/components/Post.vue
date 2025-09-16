@@ -7,6 +7,49 @@ const props = defineProps({
 import { useCurrentFeed } from '../../composables/useCurrentFeed.js';
 const { highlightedPost } = useCurrentFeed();
 
+import { useLoadData } from '../../composables/useLoadData.js';
+const { dataRef, loadData } = useLoadData();
+
+const user = computed(() =>
+  dataRef.value.users.find(u => u['user-id'] === props.postData['user-id'])
+)
+
+function formatTimestamp(ts) {
+  const date = new Date(ts)
+  const now = new Date()
+  const diffMs = now - date
+  const diffSec = Math.floor(diffMs / 1000)
+  const diffMin = Math.floor(diffSec / 60)
+  const diffH   = Math.floor(diffMin / 60)
+  const diffD   = Math.floor(diffH / 24)
+
+  if (diffD >= 1) {
+    return diffD === 1 ? "1 d." : `${diffD} d.`
+  }
+  if (diffH >= 1) {
+    return diffH === 1 ? "1 t." : `${diffH} t.`
+  }
+  if (diffMin >= 1) {
+    return diffMin === 1 ? "1 m." : `${diffMin} m.`
+  }
+  return diffSec <= 5 ? "lige nu" : `${diffSec} s.`
+}
+
+const pastelColors = [
+  "#A3C4F3", // blå
+  "#B9FBC0", // grøn
+  "#FFCFD2", // lyserød
+  "#FFE3A3", // gul
+  "#D4C2FC", // lilla
+  "#C2F0FC", // lyseblå
+  "#FFD6E0", // sart pink
+]
+
+function pastelForUser(userId) {
+  const idx = userId % pastelColors.length
+  return pastelColors[idx]
+}
+
 </script>
 
 <template>
@@ -15,8 +58,8 @@ const { highlightedPost } = useCurrentFeed();
 
     <div class="post-container" :class="{'highlighted-post': props.postData['post-id'] == highlightedPost}" :id="'post-' + props.postData['post-id']">
         <div class="post-top-container">
-            <div class="post-profile-picture"></div>
-            <p>{{ props.subjectName + " • 2 t. • @Brugernavn" }}</p>
+            <div class="post-profile-picture" :style="{ backgroundColor: pastelForUser(props.postData['user-id']) }"></div>
+            <p>{{ props.subjectName }}<span style="color: var(--grå-skrift-2)"> • {{ formatTimestamp(props.postData.timestamp) }} • {{ user?.username }}</span></p>
         </div>
 
         <div class="post-headline-container">
@@ -57,7 +100,6 @@ const { highlightedPost } = useCurrentFeed();
 .post-profile-picture {
     height: 2rem;
     width: 2rem;
-    background-color: red;
     border-radius: 100%;
 }
 

@@ -70,14 +70,59 @@ const emit = defineEmits(['closeFeed']);
         </div>
       </div>
     </div>
+
+    <div class="top-gui">
+      <div class="top-gui-button-container">
+        <Btn color="var(--box)" icon="comments"></Btn>
+      </div>
+      <div class="post-placeholder"></div>
+      <div class="top-gui-notice-container">
+        <p>Grimt sprog, diskrimination eller anden krænkende adfærd fjernes af vores moderatorer.</p>
+      </div>
+    </div>
   </div>
+
+
+ 
+
 </template>
 
 <style>
+
+.post-placeholder{
+  width: 41.5rem;
+}
+
+.top-gui{
+  position: fixed;
+  bottom: 5rem;
+  left:0;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-left: 6.25rem;
+  padding-right: 6.25rem;
+  pointer-events: none;
+}
+
+.top-gui-button-container{
+  pointer-events: auto;
+}
+
+.top-gui-notice-container p{
+  color: var(--grå-skrift-2);
+}
+.top-gui-notice-container{
+  padding-left: 6.25rem;
+}
+
 .feed-section {
   background-color: #212121;
   height: 100%;
   min-height: 100vh;
+  position: relative;
 }
 
 .feed-posts-container {
