@@ -48,7 +48,7 @@ function goToPost(post){
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth' }) // smooth = glidende scroll
             }
-        }, 500
+        }, 1000
     )
 }
 
@@ -65,30 +65,6 @@ async function insertData(resource = 'posts', data){
     })
 }
 
-// async function promptPost(post){
-//     //const res = await createCompletionsChat(post, systemPrompt.value);
-//     const res = '3';
-
-//     //console.log(subjectNames);
-//     //console.log(post, systemPrompt.value, res, res.length);
-
-//     if(res.length > 1){
-//         const newSubject = await insertData('subjects', { 'display-name': res, 'points': 8 });
-//         const newPost = await insertData('posts', { 'subject-id': newSubject.id, 'user-id': 1, 'text': post, 'headline': 'test headline', 'points': 8 });
-//         //console.log(newSubject, newPost);
-//         loadData();
-//         goToPost(newPost);
-//     }
-
-//     if(res.length < 2){
-//         const subjectId = res;
-//         const newPost = await insertData('posts', { 'subject-id': subjectId, 'user-id': 1, 'text': post, 'headline': 'test headline', 'points': 8 });
-//         //console.log(subjectId, newPost);
-//         loadData();
-//         goToPost(newPost);
-//     }
-
-// }
 
 async function promptPost(post){
     //const raw = '[3], ["Test titel fra GPT"]';
