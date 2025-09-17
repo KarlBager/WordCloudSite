@@ -68,7 +68,7 @@ function hideLoginDropDown(){
 .login-dropdown{
     position: absolute;
     background-color: var(--box);
-    border-radius: 20px;
+    border-radius: 30px;
     display: flex;
     flex-direction: column;
     padding: 5px;

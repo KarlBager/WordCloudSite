@@ -63,6 +63,8 @@ const emit = defineEmits(['closeFeed']);
             <Btn icon="bookmark" type="ghost">Gemt</Btn>
           </div>
             <div class="feed-posts-container">
+              <FeedSummary v-if="subject[0]['subject-id'] == 33"></FeedSummary>
+
               <Post v-for="post in subjectPosts" :key="post" :postData="post"
                 :subjectName="subject[0]['display-name']"></Post>
             </div>

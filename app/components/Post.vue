@@ -50,6 +50,9 @@ function pastelForUser(userId) {
   return pastelColors[idx]
 }
 
+
+const explainWord = ref(false);
+
 </script>
 
 <template>
@@ -67,7 +70,8 @@ function pastelForUser(userId) {
         </div>
 
         <div class="post-text-container">
-            <p class="post-text">{{ props.postData.text }}</p>
+          <p @mouseenter="explainWord = true" @mouseleave="explainWord = false" v-if="props.postData['post-id'] == 126" class="post-text">Det er vitterligt kun pga. den <span style="text-decoration: underline; color: lightcoral">negative parlamentarisme</span>, at Regeringen kan blive siddende</p>
+          <p v-else class="post-text">{{ props.postData.text }}</p>
         </div>
 
         <div class="post-button-row">
@@ -75,6 +79,12 @@ function pastelForUser(userId) {
             <Btn icon="bookmark"></Btn>
             <Btn icon="share">Del</Btn>
         </div>
+
+        <Transition name="fade">
+        <div class="post-container word-explanation-container" v-if="explainWord">
+            <p><b>Negativ parlamentarisme</b> er et princip i et parlamentarisk demokrati, hvor en regering kan fortsætte, så længe den ikke har et flertal af parlamentet imod sig</p>
+        </div>
+        </Transition>
 
     </div>
 
@@ -121,5 +131,18 @@ function pastelForUser(userId) {
 .post-button-row{
     display: flex;
     gap: 0.625rem;
+}
+
+
+.word-explanation-container{
+  position: absolute;
+  width: 30rem;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 2;
+}
+
+.word-explanation-container p{
+  font-size: 14px;
 }
 </style>
