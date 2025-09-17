@@ -6,6 +6,7 @@ import { useCurrentFeed } from '../../composables/useCurrentFeed.js';
 const { currentSubjectId, openSubjectFeed, closeFeed } = useCurrentFeed();
 
 import { gsap } from 'gsap'
+let mounted = false;
 
 // data ind
 const { dataRef, loadData } = useLoadData()
@@ -14,6 +15,7 @@ const { dataRef, loadData } = useLoadData()
 const emit = defineEmits(['pick'])
 
 onMounted(() => {
+  mounted = true;
   loadData()
 
   window.addEventListener('mousemove', (event) => {
@@ -126,6 +128,7 @@ const fontFamily = "Roboto, sans-serif";
 
 
 async function runLayout() {
+  if (!mounted) return
   if (layoutRunning) { rerunRequested = true; return }
   layoutRunning = true
   rerunRequested = false
@@ -182,9 +185,10 @@ async function runLayout() {
 
 const scheduleLayout = async () => { await nextTick(); runLayout() }
 
-watch([subjects, width, height], scheduleLayout, { immediate: true })
+watch([subjects, width, height], scheduleLayout, { immediate: false })
 
 watch(layoutWords, async (newWords) => {
+  if (!mounted) return
   await nextTick()
 
   newWords.forEach(w => {

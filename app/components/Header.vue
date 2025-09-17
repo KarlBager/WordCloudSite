@@ -26,7 +26,7 @@ function hideLoginDropDown(){
             <div class="secondary-nav">
                 <div class="login-button-container" @mouseleave="hideLoginDropDown()">
                 <Btn id="login-button" @mouseover="showLoginDropDown()" type="ghost">Log ind</Btn>
-                    <Transition>
+                    <Transition name="fade">
                         <div v-if="loginDropdown" class="login-dropdown">
                             <div class="login-buttons mit-id-button"></div>
                             <div class="login-buttons uni-login-button"></div>
@@ -47,6 +47,23 @@ function hideLoginDropDown(){
 </template>
 
 <style>
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateY(0px);
+}
 
 .login-dropdown{
     position: absolute;
