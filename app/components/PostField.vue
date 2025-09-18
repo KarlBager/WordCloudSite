@@ -48,7 +48,7 @@ function goToPost(post){
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth' }) // smooth = glidende scroll
             }
-        }, 1000
+        }, 3000
     )
 }
 
